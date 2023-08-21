@@ -1,3 +1,4 @@
+// this is the class file that is returning the data 
 namespace Corona_Server.Data
 {
     public class WeatherForecastService
