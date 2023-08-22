@@ -1,6 +1,6 @@
-﻿// main component is router component. this is where tactual routing happens 
-// routing is when it finds the component based on the routing defined and displaying that
-// here there is a component definition for when routing is found and when routing is not found
+﻿@* main component is router component. this is where tactual routing happens 
+routing is when it finds the component based on the routing defined and displaying that
+here there is a component definition for when routing is found and when routing is not found *@
 <Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />

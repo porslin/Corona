@@ -1,11 +1,11 @@
 ﻿@page "/"
 @namespace Corona_Server.Pages
-// default .net code taghelpers 
+@* default .net code taghelpers  *@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers 
 @{
     Layout = "_Layout";
 }
-// the final component where all of the rendering of all of the components will happen. the "App" here is the app.razor file in the project
+@* the final component where all of the rendering of all of the components will happen. the "App" here is the app.razor file in the project *@
 <component type="typeof(App)" render-mode="ServerPrerendered" />
 
-// root path of the application
+@* root path of the application *@
