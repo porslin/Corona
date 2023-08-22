@@ -1,0 +1,37 @@
+﻿@page "/learnBlazor/bindProp"
+@* this above route is not case-sensitive anywhere  *@
+
+<h3>Product</h3>
+
+@* 4. here you can now use the object of the class or the product in html code *@
+Name: @Product.Name<br />
+@* the above code is one-way data-binding, which is rendering the view as per the values inside the model *@
+Active: @Product.IsActive<br /><br />
+
+This product is: @(Product.IsActive?"Active":"Inactive")<br /><br /><br />
+
+Active: <input type="checkbox" @bind-value="@Product.IsActive" checked="@(Product.IsActive?"checked":null)"/><br /><br />
+
+Price: @Product.Price<br />
+Price: <input type="number" @bind-value="@Product.Price" />
+
+@code {
+    // write all C# code here in this block
+
+    // 3. start with complete path to model to start creating object
+    Corona_Models.LearnBlazorModels.Demo_Product Product = new()
+        {
+            // assigning values to the earlier defined properties
+            Id=1,
+            Name="Rose Candle",
+            IsActive=true,
+            // adding key-value to a new property to test data-binding
+            Price=14.99
+        };
+}
+
+@* models carry all the properties *@
+
+@* 1. after creating the model in separate project, add the model as project reference to the blazor server project *@
+
+@* 2. create an object of the demo_product class *@
