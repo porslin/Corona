@@ -20,6 +20,8 @@ namespace Corona_Models.LearnBlazorModels
 
         //adding a new property. rmbr properties must start with Caps
         public double Price { get; set; }
+
+        public IEnumerable<Demo_ProductProp> ProductProperties { get; set; }
     }
 }
 
