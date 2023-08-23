@@ -1,0 +1,67 @@
+﻿@page "/LearnBlazor/DemoProduct"
+
+<div class="row border p-2">
+
+    <h2 class="text-success">Demo Product</h2>
+
+    @foreach(var prod in Products)
+    {
+        <div class="col-6 p-3 border">
+            <h3>Product - @prod.Id</h3>
+
+            Name - @prod.Name
+            <br />
+            Show Properties: <input type="checkbox" @bind-value="prod.IsActive" checked="@(prod.IsActive?"checked":null)">
+            <br />
+            @if (@prod.IsActive)
+            {
+                @foreach(var prodProp in prod.ProductProperties)
+                {
+                    <p>@prodProp.Key - @prodProp.Value</p>
+                }
+            }
+            <br />
+            <input type="button" class="btn btn-danger" style="width:100px;" value="Delete" />
+            <input type="button" class="btn btn-success" style="width:100px;" value="Edit" />
+        </div>
+    }
+
+</div>
+
+@code {
+
+    List<Demo_Product> Products = new();
+
+    protected override void OnInitialized()
+    {
+        // just adding two products to the list with properties
+        Products.Add(new()
+            {
+                Id = 1,
+                Name = "Midnight Blaze",
+                IsActive = false,
+                Price = 19.99,
+                ProductProperties = new()
+            {
+                new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Rose" },
+                new Demo_ProductProp { Id = 2, Key = "Size", Value = "20g" },
+                new Demo_ProductProp { Id = 3, Key = "Color", Value = "Purple" }
+            }
+            });
+
+        Products.Add(new()
+            {
+                Id = 2,
+                Name = "Blossom Lily",
+                IsActive = true,
+                Price = 25.99,
+                ProductProperties = new()
+            {
+                new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Lily" },
+                new Demo_ProductProp { Id = 2, Key = "Size", Value = "18g" },
+                new Demo_ProductProp { Id = 3, Key = "Color", Value = "White" }
+            }
+            });
+    }
+
+}
