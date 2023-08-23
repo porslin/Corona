@@ -1,9 +1,15 @@
 ﻿
+@if(IsActive)
+{
+    <input type="button" class="btn btn-danger" style="width:100px;" value="Delete" />
+    <input type="button" class="btn btn-success" style="width:100px;" value="Edit" />
+}
 
-<input type="button" class="btn btn-danger" style="width:100px;" value="Delete" />
-<input type="button" class="btn btn-success" style="width:100px;" value="Edit" />
 
 
 @code {
-
+    // creating a bool property to toggle the appearance of btns based on products active status
+    // passing the attribute of parameter so the parent component can pass this attribute as a parameter when calling this component 
+    [Parameter]
+    public bool IsActive { get; set; }
 }
