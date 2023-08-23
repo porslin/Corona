@@ -71,6 +71,43 @@
 
 </div>
 
+<div class="row">
+    <div class="col-12 border p-3">
+        <h3 class="text-success">Product table</h3><hr />
+        <table class="table table-striped">
+            <tbody>
+                @* for each of the products, display a table row with a td cell. and a input cell for its properties. *@
+                @foreach (var prod in Products)
+                {
+                    <tr>
+                        <td>
+                            <input type="text" @bind-value="prod.Name" @bind-value:event="oninput" />
+                        </td>
+                        <td>
+                            <input type="text" @bind-value="prod.Price" @bind-value:event="oninput" />
+                        </td>
+                        <td>
+                            <input type="checkbox" @bind-value="prod.IsActive" checked="@(prod.IsActive?"checked":null)" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 border p-3">
+        <h3 class="text-success">Product summary</h3><hr />
+
+        @foreach(var prod in Products)
+        {
+            <p>@prod.Name [@prod.Price] is @(prod.IsActive?"Active":"Inactive")</p>    
+        }
+
+    </div>
+</div>
+
 @code {
     // write all C# code here in this block
 
@@ -112,12 +149,13 @@
             Id = 1,
             Name = "Midnight Blaze",
             IsActive = false,
+            Price = 19.99,
             ProductProperties = new()
-        {
-            new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Rose" },
-            new Demo_ProductProp { Id = 2, Key = "Size", Value = "20g" },
-            new Demo_ProductProp { Id = 3, Key = "Color", Value = "Purple" }
-        }
+            {
+                new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Rose" },
+                new Demo_ProductProp { Id = 2, Key = "Size", Value = "20g" },
+                new Demo_ProductProp { Id = 3, Key = "Color", Value = "Purple" }
+            }
         });
 
         Products.Add(new()
@@ -125,6 +163,7 @@
             Id = 2,
             Name = "Blossom Lily",
             IsActive = true,
+            Price = 25.99,
             ProductProperties = new()
             {
                 new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Lily" },
