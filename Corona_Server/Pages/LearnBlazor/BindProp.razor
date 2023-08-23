@@ -73,30 +73,67 @@
 
 @code {
     // write all C# code here in this block
-    
+
     // create a string first to hold the prop that has been selected 
     private string selectedProp = "";
 
     // 3. start with complete path to model to start creating object
     Demo_Product Product = new()
-        {
-            // assigning values to the earlier defined properties
-            Id=1,
-            Name="Rose Candle",
-            IsActive=true,
-            // adding key-value to a new property to test data-binding
-            Price=14.99,
+    {
+        // assigning values to the earlier defined properties
+        Id=1,
+        Name="Rose Candle",
+        IsActive=true,
+        // adding key-value to a new property to test data-binding
+        Price=14.99,
 
-            // creating a collection of product properties as from demo_productprops
-            ProductProperties = new List<Demo_ProductProp>()
+        // creating a collection of product properties as from demo_productprops
+        ProductProperties = new List<Demo_ProductProp>()
+        {
+            // minimize writing subfolders and entire namespaces everytime by using the using statements
+            new Demo_ProductProp { Id=1, Key="Color", Value="Black"},
+            new Demo_ProductProp { Id=2, Key="Flavor", Value="Rose Jasmine"},
+            new Demo_ProductProp { Id=3, Key="Size", Value="20g"}
+        }
+
+    };
+
+    // declaring and initializing an empty list
+    List<Demo_Product> Products = new();
+
+    // i want to assign products to this above list once the page is loaded
+    // in blazor, there are different lifcycles for that of which the OnInitialized method
+    // the onintialized method is ready when the component is ready to start and it will receive the initial params from parent in the rendering tree. however, i am not passing any parameters to the component for now
+    protected override void OnInitialized()
+    {
+        // just adding two products to the list with properties
+        Products.Add(new()
+        {
+            Id = 1,
+            Name = "Midnight Blaze",
+            IsActive = false,
+            ProductProperties = new()
+        {
+            new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Rose" },
+            new Demo_ProductProp { Id = 2, Key = "Size", Value = "20g" },
+            new Demo_ProductProp { Id = 3, Key = "Color", Value = "Purple" }
+        }
+        });
+
+        Products.Add(new()
+        {
+            Id = 2,
+            Name = "Blossom Lily",
+            IsActive = true,
+            ProductProperties = new()
             {
-                // minimize writing subfolders and entire namespaces everytime by using the using statements
-                new Demo_ProductProp { Id=1, Key="Color", Value="Black"},
-                new Demo_ProductProp { Id=2, Key="Flavor", Value="Rose Jasmine"},
-                new Demo_ProductProp { Id=3, Key="Size", Value="20g"}
+                new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Lily" },
+                new Demo_ProductProp { Id = 2, Key = "Size", Value = "18g" },
+                new Demo_ProductProp { Id = 3, Key = "Color", Value = "White" }
             }
-        
-        };
+        });
+    }
+
 }
 
 @* models carry all the properties *@
