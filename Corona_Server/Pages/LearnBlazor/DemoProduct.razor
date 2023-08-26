@@ -10,7 +10,10 @@
     {
         @* calling the individual product component that is now moved out to own component. and calling the product parameter as declared in that component. *@
         @* passing the Favorite count update as a parameter to the child component *@
-        <_IndividualProduct Product="prod" OnFavoriteUpdated="FavoriteCountUpdate" OnLastSelectedProductChange="SelectedProductUpdate"></_IndividualProduct>
+        <_IndividualProduct Product="prod" OnFavoriteUpdated="FavoriteCountUpdate" OnLastSelectedProductChange="SelectedProductUpdate">
+            <FirstFragment>#1</FirstFragment>
+            <SecondFragment>#2</SecondFragment>
+        </_IndividualProduct>
     }
 
 </div>

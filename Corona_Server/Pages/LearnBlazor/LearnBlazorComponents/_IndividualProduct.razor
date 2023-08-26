@@ -9,6 +9,11 @@
 
     Name - @Product.Name
     <br />
+    <br />
+    
+    <p>Render fragment from parent - @FirstFragment @SecondFragment</p>
+    <br />
+    <br />
 
     Show Properties: <input type="checkbox" @bind-value="Product.IsActive" checked="@(Product.IsActive?"checked":null)">
     <br />
@@ -38,6 +43,12 @@
 
     [Parameter]
     public EventCallback<string> OnLastSelectedProductChange { get; set; }
+
+    [Parameter]
+    public RenderFragment FirstFragment { get; set; }
+   
+    [Parameter]
+    public RenderFragment SecondFragment { get; set; }
 
     // implementing the onchange method. and because this is an onchange event, the parameter will be ChangeEventArgs with a suggested name as e. Inside this method, i want to link the parent method called FAvouriteCountUpdate. To do that, I need to first pass the parent method as a parameter so i can call it here in the child component. 
     private async Task FavoriteUpdated(ChangeEventArgs e)
