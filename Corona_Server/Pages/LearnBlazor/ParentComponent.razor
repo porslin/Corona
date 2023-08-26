@@ -2,18 +2,26 @@
 
 <h3>ParentChild Relation</h3>
 
-<_ChildComponent Title="This title is passed from the ParentComponent">
+<_ChildComponent OnButtonClick="ShowMessage" Title="This title is passed from the ParentComponent">
     
     Writing random text between the child components starting and closing tags in the parent
 
 </_ChildComponent>
 
-<_ChildComponent Title="This is the second title">
+<p><b>@messageText</b></p>
 
-    
+<_ChildComponent Title="This is the second title">    
 
 </_ChildComponent>
 
 @code {
+    // creating a variable for holding the message 
+    public string messageText = "";
+
+    // creating a method to show that message
+    private void ShowMessage()
+    {
+        messageText = "Corona button clicked from child component!";
+    }
 
 }

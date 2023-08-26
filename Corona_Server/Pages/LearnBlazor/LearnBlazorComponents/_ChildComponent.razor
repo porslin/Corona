@@ -14,15 +14,20 @@
             <span>Hello from empty Rendered Fragment</span>
         }
     </div>
+
+    @* trying to invoke a method from the parent component *@
+    <button class="btn btn-danger" @onclick="OnButtonClick">Button to be clicked </button>
 </div>
 
 @code {
 
     [Parameter]
     public string Title { get; set; }
-    
+
     // creating a parameter to allow random texts to be written between the called child components opening and closing tags in the parent component
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
+    [Parameter]
+    public EventCallback OnButtonClick { get; set; }
 }
