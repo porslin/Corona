@@ -1,0 +1,43 @@
+﻿<div class=" bg-light col-5 p-3 border">
+    <h4 class="text-secondary">Product - @Product.Id</h4>
+    @* create an onchange event that the parent component can listen to and then activate the onchange method in the code block below*@
+    <input type="checkbox" @onchange="FavoriteUpdated"/> Add to Favorites
+    <br />
+    <br />
+
+    Name - @Product.Name
+    <br />
+
+    Show Properties: <input type="checkbox" @bind-value="Product.IsActive" checked="@(Product.IsActive?"checked":null)">
+    <br />
+
+    @if (Product.IsActive)
+    {
+        @foreach (var prodProp in Product.ProductProperties)
+        {
+            <p>@prodProp.Key - @prodProp.Value</p>
+        }
+    }
+    <br />
+
+    @* using components instead of repeated buttons   *@
+    <_EditDeleteButton IsActive="@Product.IsActive" />
+</div>
+
+@code {
+    // creating a code block of object demo
+    [Parameter]
+    public Demo_Product Product { get; set; }
+
+    // passing a callback method here. eventcallback type must be defined. in this case, the parent method FavoriteCountUpdate expects a bool return type, so it will be bool here. 
+    // So OnFavoriteSelection will basically have a method which is FavoriteCountUpdate. So I can now invoke this method from the child component. 
+    [Parameter]
+    public EventCallback<bool> OnFavoriteUpdated { get; set; }
+
+    // implementing the onchange method. and because this is an onchange event, the parameter will be ChangeEventArgs with a suggested name as e. Inside this method, i want to link the parent method called FAvouriteCountUpdate. To do that, I need to first pass the parent method as a parameter so i can call it here in the child component. 
+    private async Task FavoriteUpdated(ChangeEventArgs e)
+    {
+        // invoking the FavoriteCountUpdate via the OnFavoriteSelection callback method using the InvokeAsync method. When using the InvokeAsync, I need to pass the parameters involved: e.Value. but because i need a return type of bool, i convert the e.Value to bool 
+        await OnFavoriteUpdated.InvokeAsync((bool)e.Value);
+    }
+}
