@@ -2,15 +2,18 @@
 
 <h3>ParentChild Relation</h3>
 
-<CascadingValue Value="@MessageForGrandChild">
-    <_ChildComponent OnButtonClick="ShowMessage" Title="This title is passed from the ParentComponent" >
+<CascadingValue Value="@MessageForGrandChild" Name="message">
+    @* Note that in this case, the lucky number cascading value renders correctly cos one is of type string while the other is int. Had both been string, the framework will not be able to identify the diff between the strings and rendered both cases with the string closest to the child component, aka 7. To avoid this, add the attribute Name to both cascading values. *@
+    <CascadingValue Value="@LuckyNumber" Name="luckyNumber">
+        <_ChildComponent OnButtonClick="ShowMessage" Title="This title is passed from the ParentComponent" >
     
-        <ChildContent>
-            Writing random text between the child components starting and closing tags in the parent.
-        </ChildContent>
-        <DangerChildContent>Danger child fragment from the parent!</DangerChildContent>
+            <ChildContent>
+                Writing random text between the child components starting and closing tags in the parent.
+            </ChildContent>
+            <DangerChildContent>Danger child fragment from the parent!</DangerChildContent>
 
-    </_ChildComponent>
+        </_ChildComponent>
+    </CascadingValue>
 </CascadingValue>
 
 <p><b>@messageText</b></p>
@@ -18,12 +21,13 @@
 @* rmbr to remove the placeholder tag and replace with the new InputAttributes attribute. *@
 <_AnotherChildComponent placeholder="Placeholder from parent"></_AnotherChildComponent>
 
-@* <_ChildComponent Title="This is the second title">    
 
-</_ChildComponent> *@
+@* <_ChildComponent Title="This is the second title"></_ChildComponent> *@
 
 @code {
     public string MessageForGrandChild = "This message is from your grandparent (ParentComponent)";
+
+    public string LuckyNumber = "7";
 
     // copying the entire dictionary from childcomp to be able to overwrite it from parentcomp
     // [Parameter]
