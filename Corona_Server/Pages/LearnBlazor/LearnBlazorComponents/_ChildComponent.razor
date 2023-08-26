@@ -5,13 +5,20 @@
 
     @* creating a div to assign a spot for eventual texts rendered from the parent component *@
     <div class="alert alert-success">
-        @if (ChildContent != null)
+        @if (DangerChildContent != null)
         {
-            <span>@ChildContent</span>
+            <span>@DangerChildContent</span>
         }
         else
         {
-            <span>Hello from empty Rendered Fragment</span>
+            @if (ChildContent != null)
+            {
+                <span>@ChildContent</span>
+            }
+            else
+            {
+                <span>Hello from empty Rendered Fragment</span>
+            }
         }
     </div>
 
@@ -27,6 +34,10 @@
     // creating a parameter to allow random texts to be written between the called child components opening and closing tags in the parent component
     [Parameter]
     public RenderFragment ChildContent { get; set; }
+
+    // creating another render fragment
+    [Parameter]
+    public RenderFragment DangerChildContent { get; set; }
 
     [Parameter]
     public EventCallback OnButtonClick { get; set; }

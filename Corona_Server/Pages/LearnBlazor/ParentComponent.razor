@@ -4,15 +4,18 @@
 
 <_ChildComponent OnButtonClick="ShowMessage" Title="This title is passed from the ParentComponent">
     
-    Writing random text between the child components starting and closing tags in the parent
+    <ChildContent>
+        Writing random text between the child components starting and closing tags in the parent.
+    </ChildContent>
+    <DangerChildContent>Danger child fragment from the parent!</DangerChildContent>
 
 </_ChildComponent>
 
 <p><b>@messageText</b></p>
 
-<_ChildComponent Title="This is the second title">    
+@* <_ChildComponent Title="This is the second title">    
 
-</_ChildComponent>
+</_ChildComponent> *@
 
 @code {
     // creating a variable for holding the message 
