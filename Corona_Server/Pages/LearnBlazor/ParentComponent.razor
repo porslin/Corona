@@ -2,14 +2,16 @@
 
 <h3>ParentChild Relation</h3>
 
-<_ChildComponent OnButtonClick="ShowMessage" Title="This title is passed from the ParentComponent" MessageForGrandChild="This message is from your grandparent (ParentComponent)">
+<CascadingValue Value="@MessageForGrandChild">
+    <_ChildComponent OnButtonClick="ShowMessage" Title="This title is passed from the ParentComponent" >
     
-    <ChildContent>
-        Writing random text between the child components starting and closing tags in the parent.
-    </ChildContent>
-    <DangerChildContent>Danger child fragment from the parent!</DangerChildContent>
+        <ChildContent>
+            Writing random text between the child components starting and closing tags in the parent.
+        </ChildContent>
+        <DangerChildContent>Danger child fragment from the parent!</DangerChildContent>
 
-</_ChildComponent>
+    </_ChildComponent>
+</CascadingValue>
 
 <p><b>@messageText</b></p>
 
@@ -21,6 +23,7 @@
 </_ChildComponent> *@
 
 @code {
+    public string MessageForGrandChild = "This message is from your grandparent (ParentComponent)";
 
     // copying the entire dictionary from childcomp to be able to overwrite it from parentcomp
     // [Parameter]
