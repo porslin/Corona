@@ -1,4 +1,6 @@
-﻿<div class=" bg-light col-5 p-3 border">
+﻿
+@* in onclick events, to pass parameters, first use (args) tgt with arrow function. followed by the method and args as one of the parameters (because im passing the mouseEventArgs) and then the name of the product"*@
+<div class=" bg-light col-5 p-3 border" @onclick="(args)=>LastSelectedProduct(args, Product.Name)">
     <h4 class="text-secondary">Product - @Product.Id</h4>
     @* create an onchange event that the parent component can listen to and then activate the onchange method in the code block below*@
     <input type="checkbox" @onchange="FavoriteUpdated"/> Add to Favorites
@@ -34,10 +36,22 @@
     [Parameter]
     public EventCallback<bool> OnFavoriteUpdated { get; set; }
 
+    [Parameter]
+    public EventCallback<string> OnLastSelectedProductChange { get; set; }
+
     // implementing the onchange method. and because this is an onchange event, the parameter will be ChangeEventArgs with a suggested name as e. Inside this method, i want to link the parent method called FAvouriteCountUpdate. To do that, I need to first pass the parent method as a parameter so i can call it here in the child component. 
     private async Task FavoriteUpdated(ChangeEventArgs e)
     {
         // invoking the FavoriteCountUpdate via the OnFavoriteSelection callback method using the InvokeAsync method. When using the InvokeAsync, I need to pass the parameters involved: e.Value. but because i need a return type of bool, i convert the e.Value to bool 
         await OnFavoriteUpdated.InvokeAsync((bool)e.Value);
     }
+
+    // because this is an onclick event, the method passes mouseeventargs instd of changeeventargs. but MouseEventArgs does not pass any value, so I have to pass the string value of the product that is selected
+    private async Task LastSelectedProduct(MouseEventArgs e, string name)
+    {
+        // invoking the last selected product name here
+        await OnLastSelectedProductChange.InvokeAsync(name);
+    }
+
+
 }

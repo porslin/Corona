@@ -4,12 +4,13 @@
 
     <h2 class="text-success">Demo Product</h2>
     <p>Favorites total: @SelectedFavoriteCount</p>
+    <p>Last selected product: @LastSelectedProductName</p>
 
     @foreach(var prod in Products)
     {
         @* calling the individual product component that is now moved out to own component. and calling the product parameter as declared in that component. *@
         @* passing the Favorite count update as a parameter to the child component *@
-        <_IndividualProduct Product="prod" OnFavoriteUpdated="FavoriteCountUpdate"></_IndividualProduct>
+        <_IndividualProduct Product="prod" OnFavoriteUpdated="FavoriteCountUpdate" OnLastSelectedProductChange="SelectedProductUpdate"></_IndividualProduct>
     }
 
 </div>
@@ -21,6 +22,9 @@
     // i want to now display the favorite count in this main block.
     // first need a variable here that will hold the number of products that are favorites
     private int SelectedFavoriteCount { get; set; } = 0;
+
+    // creating a variable for the name to be displayed 
+    private string LastSelectedProductName { get; set; }
 
     protected override void OnInitialized()
     {
@@ -71,4 +75,8 @@
 
     // however this method above needs to be called by a checkbox event that is actually in the child component. to do that, i need to use event callback.
 
+    protected void SelectedProductUpdate(string productName)
+    {
+        LastSelectedProductName = productName;
+    }
 }
