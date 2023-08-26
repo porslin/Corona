@@ -1,0 +1,28 @@
+﻿
+<div>
+    @* this child components title will be retrieved from the parent component when invoked *@
+    <div class="alert alert-info">@Title</div>
+
+    @* creating a div to assign a spot for eventual texts rendered from the parent component *@
+    <div class="alert alert-success">
+        @if (ChildContent != null)
+        {
+            <span>@ChildContent</span>
+        }
+        else
+        {
+            <span>Hello from empty Rendered Fragment</span>
+        }
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; }
+    
+    // creating a parameter to allow random texts to be written between the called child components opening and closing tags in the parent component
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+}
