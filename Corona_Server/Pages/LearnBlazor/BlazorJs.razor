@@ -1,0 +1,35 @@
+﻿@page "/learnBlazor/blazorJs"
+@inject IJSRuntime _JsRuntime
+@* inject javascript to the page *@
+
+<h3>BlazorJs</h3>
+
+<div class="row">
+    <button class="btn btn-secondary" @onclick="TestConfirmBox">Test Confirm Button</button>
+</div>
+
+<div>
+    @if (ConfirmResult)
+    {
+        <p>Confirmation has been made!</p>
+    }
+    else
+    {
+        <p>Confirmation pending!</p>
+    }
+</div>
+
+@code {
+    // i want to get a confirmation that the user really wants to continue when button is clicked. to do that, use Javascript.
+    private string ConfirmMessage = "Are you sure you want to click?";
+   
+    // creating a variable to store the user answer to the confirm qn 
+    private bool ConfirmResult { get; set; }
+    
+    
+    private async Task TestConfirmBox()
+    {
+        // using the invoke async method with jsruntime. with a boolean type result. the "confirm" box is available by default in js so call confirm and pass the ConfirmMessage. 
+        ConfirmResult = await _JsRuntime.InvokeAsync<bool>("confirm", ConfirmMessage);
+    }
+}
