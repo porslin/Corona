@@ -13,13 +13,26 @@
 
 <p><b>@messageText</b></p>
 
-<_AnotherChildComponent Placeholder="Placeholder from parent"></_AnotherChildComponent>
+@* rmbr to remove the placeholder tag and replace with the new InputAttributes attribute. *@
+<_AnotherChildComponent InputAttributes="InputAttributesFromParent"></_AnotherChildComponent>
 
 @* <_ChildComponent Title="This is the second title">    
 
 </_ChildComponent> *@
 
 @code {
+
+    // copying the entire dictionary from childcomp to be able to overwrite it from parentcomp
+    [Parameter]
+    public Dictionary<string, object> InputAttributesFromParent { get; set; } = new Dictionary<string, object>()
+    {
+        // adding all the attributes here with the default values.
+        { "required", "required" },
+        { "placeholder", "Enter name from parent" },
+        { "maxlength", 5 },
+
+    };
+
     // creating a variable for holding the message 
     public string messageText = "";
 
