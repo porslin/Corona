@@ -4,13 +4,17 @@
 
 <h1>Counter</h1>
 
+@* paragraph to display the current count *@
 <p role="status">Current count: @currentCount</p>
 
+@* onclick has a incrementcount method *@
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
 @code {
+    // currentcount is set to be 0
     private int currentCount = 0;
 
+    // increment count method that basically jsut increments the counter.
     private void IncrementCount()
     {
         currentCount++;
