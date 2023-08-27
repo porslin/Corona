@@ -19,7 +19,7 @@ namespace Corona_DataAccess.Data
         }
 
         // now, create a category table in the db. So write DbSet of class CAtegory. and name it categories. this will create a table with the name of categories. 
-        public DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
         
 
         // to create a table, you need to create a SQL server adn establish a connection
