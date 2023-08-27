@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Corona_DataAccess\Corona_DataAccess.csproj" />
     <ProjectReference Include="..\Corona_Models\Corona_Models.csproj" />
   </ItemGroup>
 
