@@ -44,7 +44,7 @@
     {
         EventType.Add("OnInitializedAsync is called");
         // becuase its an async method, rmbr to add an await method with Task.delay 
-        await Task.Delay(1500);
+
     }
 
     // calling the OnParametersSet methods the same way as above
@@ -56,7 +56,31 @@
     protected override async Task OnParametersSetAsync()
     {
         EventType.Add("OnParametersSetAsync is called");
-        await Task.Delay(1000);
+
+    }
+
+    // here i remove all the await task delays and create methods for the OnAfterRender
+    protected override void OnAfterRender(bool firstRender)
+    {
+        // OnAfterRender is already initialized on page load. So it does not appear in UI. But it will change the count to 111 which is inturn incremented to 112 thanks to the counter above. 
+        if (firstRender)
+        {
+            currentCount = 111;
+        }
+        else
+        {
+            // but upon click on counter, the counter moves to 999 which is also incremented to 1000. 
+            currentCount = 999;
+        }
+        EventType.Add("OnAfterRender is called");
+
+        // this shows how you can use this method to perform additional initialization steps using the content that is already rendered, just like activating 3rd party elements like js libraries that operate on the elements which are already present in the DOM. 
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        EventType.Add("OnAfterRenderAsync is called");
+   
     }
 }
 
@@ -69,3 +93,5 @@
 @* the first lifecycles to work on are OnInitialized and OnInitializedAsync: it is executed when the component is completely loaded *@
 
 @* the next lifecycles to work on are OnParametersSet and OnParametersSetAsync: these are called each time a new or updated parameter is received from parent in the rendered tree *@
+
+@* the third lifecycle is OnAfterRender and OnAfterRenderAsync: these methods are called after each render of the component. The point at which they are called, all the elements and components are already populated. An eg. is when i need to render a js library *@
