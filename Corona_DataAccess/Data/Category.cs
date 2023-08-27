@@ -27,3 +27,5 @@ namespace Corona_DataAccess
 // when working with realworld apps, the root entity level db objects are not exposed. to expose only the properties that are needed, DTOs are used.
 
 // first create the category table and push it to the db. to do that, create DbContext in the application. EF Core is used to create and manage the db object. 
+
+// DTO = data transfer object. usually used to encapsulate data being sent from one succession to another. in the models project, all the dtos are created. 

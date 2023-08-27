@@ -9,11 +9,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corona_Client", "Corona_Cli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corona_Models", "Corona_Models\Corona_Models.csproj", "{AECE394A-14D5-495A-8A11-1E4E111FCD73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corona_Business", "Corona_Business\Corona_Business.csproj", "{0EC8D724-E7A0-4487-BA32-CC70BA5017D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corona_Business", "Corona_Business\Corona_Business.csproj", "{0EC8D724-E7A0-4487-BA32-CC70BA5017D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corona_Common", "Corona_Common\Corona_Common.csproj", "{7DEC5DC1-5FEC-43D3-9B61-36B78F6ADA55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corona_Common", "Corona_Common\Corona_Common.csproj", "{7DEC5DC1-5FEC-43D3-9B61-36B78F6ADA55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corona_DataAccess", "Corona_DataAccess\Corona_DataAccess.csproj", "{A038A795-718A-44DE-8546-8DC5B49048D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corona_DataAccess", "Corona_DataAccess\Corona_DataAccess.csproj", "{A038A795-718A-44DE-8546-8DC5B49048D9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BE4B719C-4161-4737-A7A4-CCFF581E1BB0}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
