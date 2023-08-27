@@ -11,6 +11,9 @@
 
 
 @code {
+    // to capture the CountValue in the child component
+    [Parameter]
+    public int CountValue { get; set; }
 
     List<string> EventType = new List<string>();
 
@@ -19,5 +22,15 @@
     {
         EventType.Add("Child - OnInitialized is called");
     }
+
+    // alo calling the OnParametersSet here
+    protected override void OnParametersSet()
+    {
+        EventType.Add("Child - OnParametersSet is called");
+    }
+
+    // clicking the counter button invokes the child - onparametersset each time: the point being that OnParamtersSet is invoked each time theres an updated value being passed from parent to child 
+
+    // should therefore use the onparametersset method when you want to get values of parameters updated from the parent component, and based on those params you want to update some child component and state.
 
 }
