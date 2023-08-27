@@ -1,7 +1,9 @@
 /*main file of the application that creates or invokes the app*/
+using Corona_DataAccess.Data;
 using Corona_Server.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.EntityFrameworkCore;
 
 /*we first have a createbuilder on the arguments here*/
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 /*building the app after registering all the services that bring the data*/
 var app = builder.Build();
