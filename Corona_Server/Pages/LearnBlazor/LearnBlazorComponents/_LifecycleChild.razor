@@ -1,0 +1,23 @@
+﻿<h3>LifecycleChild</h3>
+
+@* Copying all code from lifecycle parent and removing everything related to the origianl counter *@
+<hr />
+
+@foreach (var item in EventType)
+{
+    @item
+    <hr />
+}
+
+
+@code {
+
+    List<string> EventType = new List<string>();
+
+    // removing the async method because i already know OnInitialized method is called first. Adding the child text to the OnInitialized log to be able to differentiate from the parent component easily. 
+    protected override void OnInitialized()
+    {
+        EventType.Add("Child - OnInitialized is called");
+    }
+
+}
