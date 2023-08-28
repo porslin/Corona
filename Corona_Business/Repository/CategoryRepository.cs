@@ -34,35 +34,59 @@ namespace Corona_Business.Repository
             // cleaning conversion of Category class to CategoryDTO and vice versa using AutoMapper. 
             var obj = _mapper.Map<CategoryDTO, Category>(objDTO);
 
+            obj.CreatedDate = DateTime.Now;
+
             var addedObj = _db.Categories.Add(obj);
             _db.SaveChanges();
 
             return _mapper.Map<Category, CategoryDTO>(addedObj.Entity);
         }
 
-        public CategoryDTO Delete(int id)
+        public int Delete(int id)
         {
-            throw new NotImplementedException();
+            // in order to delete, first you need to retrieve that category from db. use firstOrDefault to retrieve that categ from db. firstOrDefault retrieves based on the condition you declare, ie, where u.Id is equal to the  id received in the parameter above.
+            var obj = _db.Categories.FirstOrDefault(u => u.Id == id);
+
+            if(obj != null)
+            {
+                _db.Categories.Remove(obj);
+                return _db.SaveChanges();
+            }
+            return 0;
         }
 
         public CategoryDTO Get(int id)
         {
-            throw new NotImplementedException();
+            var obj = _db.Categories.FirstOrDefault(u => u.Id == id);
+
+            if (obj != null)
+            {
+                return _mapper.Map<Category, CategoryDTO>(obj);
+            }
+            return new CategoryDTO();
         }
 
         public IEnumerable<CategoryDTO> GetAll()
         {
-            throw new NotImplementedException();
+            // here you are converting lists of category to a list of categoryDTO
+            return _mapper.Map<IEnumerable<Category>,IEnumerable<CategoryDTO>>(_db.Categories);
         }
 
         public CategoryDTO Update(CategoryDTO objDTO)
         {
-            throw new NotImplementedException();
+            var objFromDb = _db.Categories.FirstOrDefault(u => u.Id == objDTO.Id);
+
+            if (objFromDb != null)
+            {
+                objFromDb.Name = objDTO.Name;
+                _db.Categories.Update(objFromDb);
+                _db.SaveChanges();
+                return _mapper.Map<Category, CategoryDTO>(objFromDb);
+            }
+            return objDTO;
         }
 
-        int ICategoryRepository.Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
+
+// once this repository is setup, performing crud operations is the next step. 

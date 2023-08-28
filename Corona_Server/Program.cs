@@ -1,4 +1,7 @@
 /*main file of the application that creates or invokes the app*/
+using Corona_Business.Repository;
+using Corona_Business.Repository.IRepository;
+using Corona_DataAccess;
 using Corona_DataAccess.Data;
 using Corona_Server.Data;
 using Microsoft.AspNetCore.Components;
@@ -16,6 +19,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 /* loading automapper in dependency injection */
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+/* when i request a category repository inside the blazor server app, it will automatically give an object of categoryrepository and its implementation. */
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+/* Singleton: once per service. services are created once for the lifetime of application.
+   Scoped: new object created on each request. 
+   Transient: everytime there is a request, a new object is created. can lead to bad architecture */
 
 /*building the app after registering all the services that bring the data*/
 var app = builder.Build();
