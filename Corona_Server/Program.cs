@@ -14,7 +14,8 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+/* loading automapper in dependency injection */
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 /*building the app after registering all the services that bring the data*/
 var app = builder.Build();
