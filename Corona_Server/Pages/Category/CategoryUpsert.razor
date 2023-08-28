@@ -1,7 +1,24 @@
-﻿@* single component for creating and editing the category*@
+﻿@page "/category/create"
+@* single component for creating and editing the category*@
 
-<h3>CategoryUpsert</h3>
+<div class="row my-2">
+    <h3 class="card-title text-primary mb-3 ml-3">@Title Category</h3>
+
+    <div class="col-12">
+        @* editform is blazors special form tag *@
+        <EditForm Model="Category">
+            <div class="form-group">
+                <label>Name</label>
+                <InputText @bind-Value="Category.Name" class="form-control" />
+            </div>
+        </EditForm>
+    </div>
+</div>
 
 @code {
+    // create an obj of the categoryDTO. initializing with new categoryDTO
+    private CategoryDTO Category { get; set; } = new CategoryDTO();
 
+    // creating a dynamic title to change between create and update 
+    private string Title { get; set; } = "Create";
 }
