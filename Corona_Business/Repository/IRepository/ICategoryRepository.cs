@@ -9,7 +9,7 @@ namespace Corona_Business.Repository.IRepository
 
         public CategoryDTO Update(CategoryDTO objDTO);
 
-        public CategoryDTO Delete(int id);
+        public int Delete(int id);
 
         public CategoryDTO Get(int id);
 
