@@ -1,11 +1,17 @@
 ﻿@page "/category/create"
 @* single component for creating and editing the category*@
 
+@inject ICategoryRepository _categoryRepository
+@* calling the categoryrepository after inserting using statement in _imports *@
+
+@inject NavigationManager _navigationManager
+
 <div class="row my-2">
     <h3 class="card-title text-primary mb-3 ml-3">@Title Category</h3>
 
     <div class="col-10">
         @* editform is blazors special form tag *@
+        @* to create a category on submit, you need to call the repositories *@
         <EditForm Model="Category" OnValidSubmit="UpsertCategory">
             @* 2 things needed for data validation: 
                 - enable the dataAnnotationsValidator
@@ -37,6 +43,11 @@
 
     private void UpsertCategory()
     {
-        Category.Name = "Button clicked!";
+        // Category.Name = "Button clicked!";
+        _categoryRepository.Create(Category);
+
+        _navigationManager.NavigateTo("category");
+        // after creating category, revert user to index page using nvigationmanager
+
     }
 }
