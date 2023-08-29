@@ -2,6 +2,9 @@
 @inject ICategoryRepository _categoryRepository
 @* need to inject the categoryRepository cos it is needed to retreive all the categories created *@
 
+@inject IJSRuntime _jsRuntime
+
+<_DeleteConfirmationComponent></_DeleteConfirmationComponent>
 
 <div class="row mt-4">
     <div class="col-6">
@@ -25,7 +28,11 @@
                     {
                         <tr>
                             <td>@objCat.Name</td>
-                            <td><NavLink href="@($"category/edit/{objCat.Id}")" class="btn btn-primary">Edit</NavLink></td>
+                            <td>
+                                <NavLink href="@($"category/edit/{objCat.Id}")" class="btn btn-primary">Edit</NavLink>
+                                @* must use arrow fucntion when passing a function with parameters *@
+                                <button class="btn btn-danger" @onclick="()=>HandleDelete(objCat.Id)">Delete</button>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -57,6 +64,8 @@
     // adding a boolean flag that will be a processing flag
     public bool IsLoading { get; set; } = true;
 
+    private int DeleteCategoryId { get; set; } = 0;
+
     // use the OnInitialized lifecycle to get the categories and display them in the categories list
     protected override async Task OnInitializedAsync()
     {
@@ -77,5 +86,13 @@
         Categories = _categoryRepository.GetAll();
         // so once categories are loaded, the IsLoading will be set to false
         IsLoading = false;
+    }
+
+    private void HandleDelete(int id)
+    {
+        // setting deletecategoryid to the id that is received in the parameter
+        DeleteCategoryId = id;
+        // adding the js function
+        _jsRuntime.InvokeVoidAsync("ShowDeleteConfirmationModal");
     }
 }
