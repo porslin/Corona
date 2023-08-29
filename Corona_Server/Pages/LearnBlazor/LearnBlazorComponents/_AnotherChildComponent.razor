@@ -1,0 +1,24 @@
+﻿<div>
+    <h4 class="text-primary pt-3">Another Child Component</h4>
+    @* removing separate attributes like: placeholder="@Placeholder" required="@Required" maxlength="@MaxLength" and replacing it with just attributes-tag *@
+    @* using a placeholder in the child comp instead will make it overwrite any placeholders in the parent. WARNING: placeholder here is only taking preference because it comes after the attributes tag. if it was before the attributes tag here, the parent placeholder will take prio. *@
+    <input id="nametemp" @attributes="InputAttributes" placeholder="Child Placeholder" />
+
+</div>
+
+@code {
+    // [Parameter]
+    // public string Placeholder { get; set; } = "Initial placeholder";
+
+    // [Parameter]
+    // public string Required { get; set; } = "required";
+
+    // [Parameter]
+    // public string MaxLength { get; set; } = "10";
+
+    // Dictionary brackets will include key and value. In this case, key will be string and value will be object.
+    // Initializing the dictionary directly
+    // captureUnmatchedValues checks for differences and displays if true
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> InputAttributes { get; set; } = new Dictionary<string, object>();
+}

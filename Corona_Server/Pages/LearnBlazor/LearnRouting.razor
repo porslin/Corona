@@ -1,0 +1,55 @@
+﻿@page "/learnBlazor/learnRouting/{parameter1:int}/{parameter2}"
+@* you can explicitly declare a type for a specific parameter, so users dont try funny urls *@
+@page "/learnBlazor/learnRouting/{parameter1}/"
+@page "/learnBlazor/learnRouting"
+@page "/learnRouting"
+
+@inject NavigationManager _NavigationManager
+@* navigationmanager is used to extract query parameters, so inject type of NavigationManager and call it _NavigationManager *@
+
+@* it is possible to give a page multiple routes *@
+@* if the page can have more than 1 paramter, then list all the possible number of parameters *@
+
+<h3>Learn Routing</h3>
+
+<h4>Parameter 1: @Parameter1</h4>
+<h4>Parameter 2: @Parameter2</h4>
+
+@* NavLink works just as well as anchor tag. *@
+<NavLink href="learnRouting?Param1=Corona&Param2=Blazor" class="btn btn-primary">Navigate to query parameters</NavLink>
+
+@* buttons are similar but instead of href, they invoke an @onclick method which is defined below with navigateto method. *@
+<button @onclick="NavigateToQueryParam" class="btn btn-primary">Navigate to query parameters</button>
+<button class="btn btn-success" @onclick="LoadParameters">Load parameters</button>
+<br />
+<h3>Query String Parameters: </h3>
+<h4>Param 1: @Param1</h4>
+<h4>Param 2: @Param2</h4>
+
+@code {
+    [Parameter]
+    public int Parameter1 { get; set; }
+
+    [Parameter]
+    public string Parameter2 { get; set; }
+
+    // creating the variables that can be found in the url
+    public string Param1 { get; set; }
+    public string Param2 { get; set; }
+
+    private void LoadParameters()
+    {
+        // using navmanager to extract param1 and param2
+        // extract the absolute Uri
+        var absoluteUri = new Uri(_NavigationManager.Uri);
+        // extract query parameter
+        var queryParam = System.Web.HttpUtility.ParseQueryString(absoluteUri.Query);
+        Param1 = queryParam["Param1"];
+        Param2 = queryParam["Param2"];
+    }
+
+    private void NavigateToQueryParam()
+    {
+        _NavigationManager.NavigateTo("learnRouting?Param1=Corona&Param2=Blazor");
+    }
+}
