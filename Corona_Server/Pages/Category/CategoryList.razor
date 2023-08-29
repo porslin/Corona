@@ -63,17 +63,23 @@
     private IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
 
     // adding a boolean flag that will be a processing flag
-    public bool IsLoading { get; set; } = true;
+    public bool IsLoading { get; set; }
 
     private int DeleteCategoryId { get; set; } = 0;
 
     // use the OnInitialized lifecycle to get the categories and display them in the categories list
-    protected override async Task OnInitializedAsync()
+    // try to avoid task.run on onintializedasync. instead use onafterrenderasync.
+    // but the onAfterRenderAsync does not make the ui change
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        // load cateogires here by using the GetAll method in the categoryRepository
-        // Categories = _categoryRepository.GetAll();
-        await Task.Run(LoadCategories);
-        // now the page loads immediately on click and the contents/cateogries list loads abit later
+        if (firstRender)
+        {
+            // load cateogires here by using the GetAll method in the categoryRepository
+            // Categories = _categoryRepository.GetAll();
+            LoadCategories();
+            // now the page loads immediately on click and the contents/cateogries list loads abit later
+        }
+
     }
     // first render of OnInitialized takes awhile even tho the url changes immediately upon click into cateogry page. 
     // the first time it is being called, it has to establish the connection to db and it will have to fill the categories list before the page loads
@@ -83,10 +89,14 @@
     // so now loading of cateogries will be in a separate thread here:
     private void LoadCategories()
     {
+        IsLoading = true;
+        StateHasChanged();
         // populating categories inside here
         Categories = _categoryRepository.GetAll();
         // so once categories are loaded, the IsLoading will be set to false
         IsLoading = false;
+        StateHasChanged();
+        // notifiy the app that state has changed and that it needs to do some reredenring
     }
 
     private void HandleDelete(int id)
