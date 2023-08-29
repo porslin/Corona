@@ -1,0 +1,82 @@
+﻿@page "/LearnBlazor/DemoProduct"
+
+<div class="row border p-2">
+
+    <h2 class="text-success">Demo Product</h2>
+    <p>Favorites total: @SelectedFavoriteCount</p>
+    <p>Last selected product: @LastSelectedProductName</p>
+
+    @foreach(var prod in Products)
+    {
+        @* calling the individual product component that is now moved out to own component. and calling the product parameter as declared in that component. *@
+        @* passing the Favorite count update as a parameter to the child component *@
+        <_IndividualProduct Product="prod" OnFavoriteUpdated="FavoriteCountUpdate" OnLastSelectedProductChange="SelectedProductUpdate"></_IndividualProduct>
+    }
+
+</div>
+
+@code {
+
+    List<Demo_Product> Products = new();
+
+    // i want to now display the favorite count in this main block.
+    // first need a variable here that will hold the number of products that are favorites
+    private int SelectedFavoriteCount { get; set; } = 0;
+
+    // creating a variable for the name to be displayed 
+    private string LastSelectedProductName { get; set; }
+
+    protected override void OnInitialized()
+    {
+        // just adding two products to the list with properties
+        Products.Add(new()
+            {
+                Id = 1,
+                Name = "Midnight Blaze",
+                IsActive = false,
+                Price = 19.99,
+                ProductProperties = new()
+            {
+                new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Rose" },
+                new Demo_ProductProp { Id = 2, Key = "Size", Value = "20g" },
+                new Demo_ProductProp { Id = 3, Key = "Color", Value = "Purple" }
+            }
+            });
+
+        Products.Add(new()
+            {
+                Id = 2,
+                Name = "Blossom Lily",
+                IsActive = true,
+                Price = 25.99,
+                ProductProperties = new()
+            {
+                new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Lily" },
+                new Demo_ProductProp { Id = 2, Key = "Size", Value = "18g" },
+                new Demo_ProductProp { Id = 3, Key = "Color", Value = "White" }
+            }
+            });
+    }
+
+    // second, i need a method that invokes everytime the favorites checkbox is toggled with a paramenter of IsSelected
+    protected void FavoriteCountUpdate(bool isSelected)
+    {
+        if (isSelected)
+        {
+            // if selected, it will increment the counter
+            SelectedFavoriteCount++;
+        }
+        else
+        {
+            // if unselected, it will decrement the counter
+            SelectedFavoriteCount--;
+        }
+    }
+
+    // however this method above needs to be called by a checkbox event that is actually in the child component. to do that, i need to use event callback.
+
+    protected void SelectedProductUpdate(string productName)
+    {
+        LastSelectedProductName = productName;
+    }
+}

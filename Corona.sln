@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corona_Server", "Corona_Ser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corona_Client", "Corona_Client\Corona_Client.csproj", "{153734FC-1BC5-4465-B8C4-D93ED4C8E03D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corona_Models", "Corona_Models\Corona_Models.csproj", "{AECE394A-14D5-495A-8A11-1E4E111FCD73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corona_Models", "Corona_Models\Corona_Models.csproj", "{AECE394A-14D5-495A-8A11-1E4E111FCD73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
