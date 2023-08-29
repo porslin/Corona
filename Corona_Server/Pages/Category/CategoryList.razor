@@ -95,4 +95,18 @@
         // adding the js function
         _jsRuntime.InvokeVoidAsync("ShowDeleteConfirmationModal");
     }
+
+    public async Task ConfirmDelete_Click(bool isConfirmed)
+    {
+        if (isConfirmed && DeleteCategoryId!=0)
+        {
+            // delete
+            _categoryRepository.Delete(DeleteCategoryId);
+            // reload categories
+            LoadCategories();
+            // hide the delete confirmation
+            _jsRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
+        }
+
+    }
 }
