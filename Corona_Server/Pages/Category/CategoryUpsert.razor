@@ -74,7 +74,7 @@
         else
         {
             // update
-            Title = "Edit";
+            Title = "Update";
             await Task.Run(LoadCategory);
         }
     }
@@ -87,10 +87,18 @@
 
     private void UpsertCategory()
     {
-        // Category.Name = "Button clicked!";
-        _categoryRepository.Create(Category);
-
+        if (Category.Id==0)
+        {
+            // create new category
+            _categoryRepository.Create(Category);
+        }
+        else
+        {
+            // update existing category
+            _categoryRepository.Update(Category);
+        }
+        // moving navigateTo outside of both, because both need to bee redirected
         _navigationManager.NavigateTo("category");
-        // after creating category, revert user to index page using nvigationmanager
+
     }
 }
