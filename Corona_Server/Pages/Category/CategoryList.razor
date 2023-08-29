@@ -31,6 +31,21 @@
                 </tbody>
             </table>
         }
+        else
+        {
+            if (IsLoading)
+            {
+                // display loading gif 
+                <div class="text-center">
+                    <img src="/images/loading.gif">
+                </div>
+            }
+            else
+            {
+                // if loading is done, then display no records
+                <p>No records found.</p>
+            }
+        }
     </div>
 </div>
 
@@ -39,10 +54,28 @@
     // initialize new list of categoryDTO
     private IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
 
+    // adding a boolean flag that will be a processing flag
+    public bool IsLoading { get; set; } = true;
+
     // use the OnInitialized lifecycle to get the categories and display them in the categories list
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         // load cateogires here by using the GetAll method in the categoryRepository
+        // Categories = _categoryRepository.GetAll();
+        await Task.Run(LoadCategories);
+        // now the page loads immediately on click and the contents/cateogries list loads abit later
+    }
+    // first render of OnInitialized takes awhile even tho the url changes immediately upon click into cateogry page. 
+    // the first time it is being called, it has to establish the connection to db and it will have to fill the categories list before the page loads
+    // changing this to an async method will enable spinning out the loading of categories in a different thread while the UI renders
+
+
+    // so now loading of cateogries will be in a separate thread here:
+    private void LoadCategories()
+    {
+        // populating categories inside here
         Categories = _categoryRepository.GetAll();
+        // so once categories are loaded, the IsLoading will be set to false
+        IsLoading = false;
     }
 }
