@@ -5,7 +5,8 @@
 <CascadingValue Value="@MessageForGrandChild" Name="message">
     @* Note that in this case, the lucky number cascading value renders correctly cos one is of type string while the other is int. Had both been string, the framework will not be able to identify the diff between the strings and rendered both cases with the string closest to the child component, aka 7. To avoid this, add the attribute Name to both cascading values. *@
     <CascadingValue Value="@LuckyNumber" Name="luckyNumber">
-        <_ChildComponent OnButtonClick="ShowMessage" Title="This title is passed from the ParentComponent" >
+        @* add the childComp variable/object here using the @ref attribute *@
+        <_ChildComponent @ref="childComp" OnButtonClick="ShowMessage" Title="This title is passed from the ParentComponent">
     
             <ChildContent>
                 Writing random text between the child components starting and closing tags in the parent.
@@ -17,6 +18,20 @@
 </CascadingValue>
 
 <p><b>@messageText</b></p>
+<br />
+<br />
+
+@* this div is trying to call the toastr method that is now in the child component. to access the child component method, i can call it within the child component element tags above. *@
+<div class="row">
+    @* after referencing the childComp in the child component above, the childComp methods will be accessible from an onclick. 
+
+    but rmbr the original ToastrSuccess method in the child component must be changed to public. 
+    
+    and also rmbr to invoke the method at the end with ()s*@
+    <button class="btn btn-success" @onclick="()=>childComp.ToastrSuccess()">Show Toastr Alert</button>
+</div>
+<br />
+<br />
 
 @* rmbr to remove the placeholder tag and replace with the new InputAttributes attribute. *@
 <_AnotherChildComponent placeholder="Placeholder from parent"></_AnotherChildComponent>
@@ -25,6 +40,11 @@
 @* <_ChildComponent Title="This is the second title"></_ChildComponent> *@
 
 @code {
+    // to call the method inside the child component, first call the object of that child component and name it. 
+    // creating a private childcomponent with the name of childComp and then referencing it in the child component above
+    public _ChildComponent childComp;
+
+
     public string MessageForGrandChild = "This message is from your grandparent (ParentComponent)";
 
     public string LuckyNumber = "7";

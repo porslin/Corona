@@ -1,0 +1,76 @@
+﻿@page "/learnBlazor/blazorJs"
+@inject IJSRuntime _JsRuntime
+
+@* inject javascript to the page *@
+
+<h3>BlazorJs</h3>
+
+<div class="row">
+    <button class="btn btn-secondary" @onclick="TestConfirmBox">Test Confirm Button</button>
+</div>
+<br />
+<br />
+
+<div class="row">
+    <button class="btn btn-success m-2" style="width:180px;" @onclick="ToastrSuccess">Toastr Success</button>
+    <button class="btn btn-danger m-2" style="width:180px;" @onclick="ToastrFailure">Toastr Failure</button>
+</div>
+
+<div class="row">
+    <button class="btn btn-success m-2" style="width:180px;" @onclick="SweetAlertSuccess">SweetAlert Success</button>
+    <button class="btn btn-danger m-2" style="width:180px;" @onclick="SweetAlertFailure">SweetAlert Failure</button>
+</div>
+
+<div>
+    @if (ConfirmResult)
+    {
+        <p>Confirmation has been made!</p>
+    }
+    else
+    {
+        <p>Confirmation pending!</p>
+    }
+</div>
+
+@code {
+    // i want to get a confirmation that the user really wants to continue when button is clicked. to do that, use Javascript.
+    private string ConfirmMessage = "Are you sure you want to click?";
+
+    // creating a variable to store the user answer to the confirm qn 
+    private bool ConfirmResult { get; set; }
+
+
+    private async Task TestConfirmBox()
+    {
+        // using the invoke async method with jsruntime. with a boolean type result. the "confirm" box is available by default in js so call confirm and pass the ConfirmMessage. 
+        ConfirmResult = await _JsRuntime.InvokeAsync<bool>("confirm", ConfirmMessage);
+    }
+
+    private async Task ToastrSuccess()
+    {
+        // removing the confirmresult variable cos the showtoastr is not returned any value. so theres no need for one. 
+        // also removing bool type and changing method to InvokeVoidAsync cos it isnt returning anything.
+        // await _JsRuntime.InvokeVoidAsync("ShowToastr", "success", "Success");
+        // because ive moved the method to the jsruntime, i can now just directly invoke the method from the jsruntime
+        // rmbr to add the IJSRuntime to the global imports too 
+        // and then pass the message that has to be displayed
+        await _JsRuntime.ToastrSuccess("Operation Successful");
+    }
+    
+    private async Task ToastrFailure()
+    {
+        await _JsRuntime.ToastrError("Operation Failed");
+    }
+
+
+    // similar methods for invoking sweetalert
+    private async Task SweetAlertSuccess()
+    {
+        await _JsRuntime.InvokeVoidAsync("ShowSwal","success","Task completed successfully");
+    }
+
+    private async Task SweetAlertFailure()
+    {
+        await _JsRuntime.InvokeVoidAsync("ShowSwal","error","Task failed");
+    }
+}

@@ -4,6 +4,7 @@
 
 @using Corona_Server.Data
 @inject WeatherForecastService ForecastService
+@* using statements for the data folder and injecting the weatherforecast service. the weatherforecast service is also added as a singleton in the startup class file program.cs *@
 
 <h1>Weather forecast</h1>
 
@@ -25,6 +26,7 @@ else
             </tr>
         </thead>
         <tbody>
+            @* the forecasts array is displayed in a table *@
             @foreach (var forecast in forecasts)
             {
                 <tr>
@@ -39,8 +41,11 @@ else
 }
 
 @code {
+    // creating an array of weather forecasts
     private WeatherForecast[]? forecasts;
 
+    // inside the oninitializedasaync method, the weather forecast service and the getforecastasync inside that is called 
+    // the return , wihch is all the forecasts is saved in a array variable called forecasts
     protected override async Task OnInitializedAsync()
     {
         forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
