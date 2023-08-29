@@ -5,7 +5,7 @@
 @inject IJSRuntime _jsRuntime
 
 @* invoking a method from child component*@
-<_DeleteConfirmationComponent ConfirmationChanged="ConfirmDelete_Click"></_DeleteConfirmationComponent>
+<_DeleteConfirmationComponent IsParentComponentProcessing="IsLoading" ConfirmationChanged="ConfirmDelete_Click"></_DeleteConfirmationComponent>
 
 <div class="row mt-4">
     <div class="col-6">
@@ -99,8 +99,11 @@
 
     public async Task ConfirmDelete_Click(bool isConfirmed)
     {
+        IsLoading = true;
         if (isConfirmed && DeleteCategoryId!=0)
         {
+            // creating a delete processing time
+            // await Task.Delay(5000);
             // delete
             _categoryRepository.Delete(DeleteCategoryId);
             // reload categories
@@ -108,6 +111,6 @@
             // hide the delete confirmation
             _jsRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
         }
-
+        IsLoading = false;
     }
 }
