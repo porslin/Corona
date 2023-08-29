@@ -1,6 +1,9 @@
 ﻿@page "/category/create"
 @* single component for creating and editing the category*@
 
+@page "/category/edit/{id:int}"
+@* url for editting specific categories *@
+
 @inject ICategoryRepository _categoryRepository
 @* calling the categoryrepository after inserting using statement in _imports *@
 
@@ -10,36 +13,77 @@
     <h3 class="card-title text-primary mb-3 ml-3">@Title Category</h3>
 
     <div class="col-10">
-        @* editform is blazors special form tag *@
-        @* to create a category on submit, you need to call the repositories *@
-        <EditForm Model="Category" OnValidSubmit="UpsertCategory">
-            @* 2 things needed for data validation: 
-                - enable the dataAnnotationsValidator
-                - idsplay error messages with validationSummary
+        @if (IsLoading)
+        {
+            // load loading gif
+            <div class="text-center">
+                <img src="/images/loading.gif">
+            </div>
+        }
+        else
+        {
+            // display form
+            @* editform is blazors special form tag *@
+            @* to create a category on submit, you need to call the repositories *@
+            <EditForm Model="Category" OnValidSubmit="UpsertCategory">
+                @* 2 things needed for data validation:
+            - enable the dataAnnotationsValidator
+            - idsplay error messages with validationSummary
             *@
-            <DataAnnotationsValidator /> @* basiically telling the form that if there are any data annotations, make sure to validate those. *@
-            @* <ValidationSummary /> *@
-            <div class="form-group">
-                <label>Name</label>
-                <InputText @bind-Value="Category.Name" class="form-control" />
-                <ValidationMessage For="()=>Category.Name"></ValidationMessage>
-            </div>
+                <DataAnnotationsValidator /> @* basiically telling the form that if there are any data annotations, make sure to validate those. *@
+                @* <ValidationSummary /> *@
+                <div class="form-group">
+                    <label>Name</label>
+                    <InputText @bind-Value="Category.Name" class="form-control" />
+                    <ValidationMessage For="()=>Category.Name"></ValidationMessage>
+                </div>
 
-            <div class="form-group py-2">
-                @* action on button click is defined in the editform element. *@
-                <button class="btn btn-primary">@Title</button>
-                <NavLink href="category" class="btn btn-secondary">Back to Index</NavLink>
-            </div>
-        </EditForm>
+                <div class="form-group py-2">
+                    @* action on button click is defined in the editform element. *@
+                    <button class="btn btn-primary">@Title</button>
+                    <NavLink href="category" class="btn btn-secondary">Back to Index</NavLink>
+                </div>
+            </EditForm>
+        }
     </div>
 </div>
 
 @code {
+
+    [Parameter]
+    public int Id { get; set; }
+
     // create an obj of the categoryDTO. initializing with new categoryDTO
     private CategoryDTO Category { get; set; } = new CategoryDTO();
 
+
     // creating a dynamic title to change between create and update 
     private string Title { get; set; } = "Create";
+
+
+    // copying IsLoading functionaliteis from categorylist page
+    public bool IsLoading { get; set; } = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id==0)
+        {
+            // create
+            IsLoading = false;
+        }
+        else
+        {
+            // update
+            Title = "Edit";
+            await Task.Run(LoadCategory);
+        }
+    }
+
+    private void LoadCategory()
+    {
+        Category = _categoryRepository.Get(Id);
+        IsLoading = false;
+    }
 
     private void UpsertCategory()
     {
@@ -48,6 +92,5 @@
 
         _navigationManager.NavigateTo("category");
         // after creating category, revert user to index page using nvigationmanager
-
     }
 }
