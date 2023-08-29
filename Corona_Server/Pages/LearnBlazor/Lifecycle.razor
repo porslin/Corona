@@ -1,0 +1,129 @@
+﻿@page "/learnBlazor/lifecycle"
+@using System.Threading
+@* introducing a timer with above using to show the statehaschanged in action *@
+
+<h3>Lifecycle</h3>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<br />
+<br />
+
+@Count <button @onclick=StartCountdown>Start Countdown</button>
+
+<div class="border">
+    @* to test the OnParametersSet methods, include the CountValue parameter in the child component. *@
+    <_LifecycleChild CountValue="@currentCount"></_LifecycleChild>
+</div>
+
+<hr />
+@* logging every item in the list of string *@
+@foreach (var item in EventType)
+{   
+    @item
+    <hr />
+}
+@* Logging this shows that the OnInitialized method is rendered before the OnInitializedAsync *@
+
+@code {
+
+    private int currentCount = 0;
+
+    // calling the list of string to log all of the events 
+    List<string> EventType = new List<string>();
+
+    private int Count { get; set; } = 5;
+    // 
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    // intellisense should fill in the method when calling the oninitialized with protected override void. and the oninitialized async when writing protexted override Task.
+    protected override void OnInitialized()
+    {
+        // add EventType.Add when oninitialized is called
+        EventType.Add("OnInitialized is called");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        EventType.Add("OnInitializedAsync is called");
+        // becuase its an async method, rmbr to add an await method with Task.delay 
+
+    }
+
+    // calling the OnParametersSet methods the same way as above
+    protected override void OnParametersSet()
+    {
+        EventType.Add("OnParametersSet is called");
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        EventType.Add("OnParametersSetAsync is called");
+
+    }
+
+    // here i remove all the await task delays and create methods for the OnAfterRender
+    protected override void OnAfterRender(bool firstRender)
+    {
+        // OnAfterRender is already initialized on page load. So it does not appear in UI. But it will change the count to 111 which is inturn incremented to 112 thanks to the counter above. 
+        if (firstRender)
+        {
+            currentCount = 111;
+        }
+        else
+        {
+            // but upon click on counter, the counter moves to 999 which is also incremented to 1000. 
+            currentCount = 999;
+        }
+        EventType.Add("OnAfterRender is called");
+
+        // this shows how you can use this method to perform additional initialization steps using the content that is already rendered, just like activating 3rd party elements like js libraries that operate on the elements which are already present in the DOM. 
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        EventType.Add("OnAfterRenderAsync is called");
+
+    }
+
+    protected override bool ShouldRender()
+    {
+        EventType.Add("ShouldRender is called");
+        return true; // note this return value here cos it is expecting a return type unlike the other methods above!
+    }
+
+    void StartCountdown()
+    {
+        var timer = new Timer(TimeCallBack, null, 1000, 1000);
+    }
+
+    void TimeCallBack(object state)
+    {
+        if (Count > 0)
+        {
+            Count--;
+            InvokeAsync(StateHasChanged);
+        }
+    }
+}
+
+@* lifecycle methods will be called inside both the parent and child components *@
+
+@* when the lifecycle gets triggered, i want to display which lifecycle was called in which order *@
+
+@* in order to do that, call a list of string and and log in it everytime a lifecycle is called *@
+
+@* the first lifecycles to work on are OnInitialized and OnInitializedAsync: it is executed when the component is completely loaded *@
+
+@* the next lifecycles to work on are OnParametersSet and OnParametersSetAsync: these are called each time a new or updated parameter is received from parent in the rendered tree *@
+
+@* the third lifecycle is OnAfterRender and OnAfterRenderAsync: these methods are called after each render of the component. The point at which they are called, all the elements and components are already populated. An eg. is when i need to render a js library *@
+
+@* the next methods in the lifecycle are called ShouldRender and StateHasChanged. 
+    ShoudlREnder() returns are bool value. if that is true, it refreshes the UI otherwise the changes made is not sent to UI. ShoudlREnder() alwawys does the intial rendering despite of its return value. *@
+
+@* StateHAsChanged() is called after all the lifecycle methods have been called. It notifies the component that its state has changed. It can be invoked manually to trigger a UI rerender. if at some point the UI is not refreshing and it needs to be manually rerendered, this method can be used. This method will look at the value returned from the ShouldRender() to decide if a UI rerender shd happen or not. However, this only happens after the component has been rendered for the first time. *@

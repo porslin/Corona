@@ -1,0 +1,36 @@
+﻿<h3>LifecycleChild</h3>
+
+@* Copying all code from lifecycle parent and removing everything related to the origianl counter *@
+<hr />
+
+@foreach (var item in EventType)
+{
+    @item
+    <hr />
+}
+
+
+@code {
+    // to capture the CountValue in the child component
+    [Parameter]
+    public int CountValue { get; set; }
+
+    List<string> EventType = new List<string>();
+
+    // removing the async method because i already know OnInitialized method is called first. Adding the child text to the OnInitialized log to be able to differentiate from the parent component easily. 
+    protected override void OnInitialized()
+    {
+        EventType.Add("Child - OnInitialized is called");
+    }
+
+    // alo calling the OnParametersSet here
+    protected override void OnParametersSet()
+    {
+        EventType.Add("Child - OnParametersSet is called");
+    }
+
+    // clicking the counter button invokes the child - onparametersset each time: the point being that OnParamtersSet is invoked each time theres an updated value being passed from parent to child 
+
+    // should therefore use the onparametersset method when you want to get values of parameters updated from the parent component, and based on those params you want to update some child component and state.
+
+}
