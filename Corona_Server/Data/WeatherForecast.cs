@@ -1,4 +1,4 @@
-// this is the model 
+ //this is the model 
 namespace Corona_Server.Data
 {
     public class WeatherForecast
