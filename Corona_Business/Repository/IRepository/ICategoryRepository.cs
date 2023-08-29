@@ -5,14 +5,14 @@ namespace Corona_Business.Repository.IRepository
     // this cateogryrepo will be called from the server app
     public interface ICategoryRepository
     {
-        public CategoryDTO Create(CategoryDTO objDTO);
+        public Task<CategoryDTO> Create(CategoryDTO objDTO);
 
-        public CategoryDTO Update(CategoryDTO objDTO);
+        public Task<CategoryDTO> Update(CategoryDTO objDTO);
 
-        public int Delete(int id);
+        public Task<int> Delete(int id);
 
-        public CategoryDTO Get(int id);
+        public Task<CategoryDTO> Get(int id);
 
-        public IEnumerable<CategoryDTO> GetAll();
+        public Task<IEnumerable<CategoryDTO>> GetAll();
     }
 }
