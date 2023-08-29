@@ -1,4 +1,7 @@
 ﻿@page "/category"
+@inject ICategoryRepository _categoryRepository
+@* need to inject the categoryRepository cos it is needed to retreive all the categories created *@
+
 
 <div class="row mt-4">
     <div class="col-6">
@@ -7,8 +10,39 @@
     <div class="col-4 offset-2">
         <a href="category/create" class="btn btn-primary form-control">Add New Category</a>
     </div>
+    <div class="col-12">
+        @if (Categories.Any())
+        {
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var objCat in Categories)
+                    {
+                        <tr>
+                            <td>@objCat.Name</td>
+                            <td><NavLink href="" class="btn btn-primary">Edit</NavLink></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
 </div>
 
 @code {
+    // i want to display a list of categoryDTO. so it will be an IEnumerable of categoryDTO
+    // initialize new list of categoryDTO
+    private IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
 
+    // use the OnInitialized lifecycle to get the categories and display them in the categories list
+    protected override void OnInitialized()
+    {
+        // load cateogires here by using the GetAll method in the categoryRepository
+        Categories = _categoryRepository.GetAll();
+    }
 }
